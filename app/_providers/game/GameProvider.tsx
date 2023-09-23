@@ -7,7 +7,15 @@ import findSolutions from "@/_utilities/findSolutions";
 const LOCALSTORAGE_KEY = "dimension";
 
 
+/**
+ * GameProvider component. Provides game state and utility methods to its children using React context.
+ * @param children - React components or elements that will have access to the provided context.
+ */
 export default function GameProvider({ children }: { children: ReactNode }) {
+    /**
+     * Determines the initial dimension of the game board.
+     * @returns The initial dimension, either from local storage or defaulting to 4.
+     */
     const initialDimension = useMemo((): number => {
         const isBrowserEnvironment = (): boolean => typeof window !== 'undefined';
 
@@ -27,6 +35,9 @@ export default function GameProvider({ children }: { children: ReactNode }) {
         isGameWon: false
     });
 
+    /**
+     * Initiates a new game with a fresh pyramid and resets relevant game states.
+     */
     const newGame = useCallback(() => {
         setGameState(prevState => ({
             ...prevState,
@@ -39,12 +50,25 @@ export default function GameProvider({ children }: { children: ReactNode }) {
         }))
     }, []);
 
+    /**
+     * Handles the change in game dimension and stores it in local storage.
+     * @param dimension - The new dimension for the game.
+     */
     const handleDimension = useCallback((dimension: number) => {
         localStorage.setItem(LOCALSTORAGE_KEY, dimension.toString());
         setGameState(prevState => ({ ...prevState, dimension }))
     }, []);
 
+    /**
+     * Checks if the gamer's path is complete.
+     * @returns True if the gamer's path is complete, false otherwise.
+     */
     const isGamerPathCompleted = useMemo(() => gameState.gamerPath.length == gameState.dimension, [ gameState.gamerPath, gameState.dimension ])
+
+    /**
+     * Determines if the current game is won.
+     * @returns True if the game is won, false otherwise.
+     */
     const isGameWon = useMemo(() => {
         if (!isGamerPathCompleted || gameState.isShowSolution) return false;
 
@@ -53,12 +77,19 @@ export default function GameProvider({ children }: { children: ReactNode }) {
         return solutions.some(solution => JSON.stringify(solution) == JSON.stringify(gameState.gamerPath))
     }, [ gameState.pyramid, gameState.isShowSolution, gameState.dimension, gameState.gamerPath, isGamerPathCompleted ])
 
+    /**
+     * Checks if the game is won and updates the game state accordingly.
+     */
     const checkGameWin = useCallback(() => {
         if (!isGameWon) return;
 
         setGameState(prevState => ({ ...prevState, isGameWon: true, isGameCompleted: true }))
     }, [ isGameWon ]);
 
+    /**
+     * Constructs the value to be provided to the GameContext.
+     * @returns The context value containing the game state and utility functions.
+     */
     const contextValue = useMemo(() => {
         return {
             gameState,

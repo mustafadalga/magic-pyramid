@@ -1,6 +1,12 @@
 import { Path, Pyramid } from "@/_types";
 import findSolutions from "@/_utilities/findSolutions";
 
+
+/**
+ * Creates a pyramid structure ensuring it has at least one valid solution.
+ * @param dimension - The dimension of the pyramid to be created.
+ * @returns A pyramid structure with a valid solution path.
+ */
 export default function createPyramid(dimension: number): Pyramid {
     let pyramid: Pyramid;
     let solutions: Path[] = [];
@@ -13,6 +19,11 @@ export default function createPyramid(dimension: number): Pyramid {
     return pyramid;
 }
 
+/**
+ * Generates a random pyramid structure for the given dimension.
+ * @param dimension - The dimension of the pyramid to be generated.
+ * @returns A random pyramid structure.
+ */
  function generatePyramid(dimension: number): Pyramid {
     const randomPath = createRandomPath(dimension);
     const pyramid: Pyramid = [];
@@ -34,11 +45,22 @@ export default function createPyramid(dimension: number): Pyramid {
     return pyramid;
 }
 
+/**
+ * Creates a random path of numbers based on the given dimension.
+ * @param dimension - The number of elements in the random path.
+ * @returns A randomized array of numbers ranging from 1 to the provided dimension.
+ */
 function createRandomPath(dimension: number): number[] {
     const numbers: number[] = Array.from({ length: dimension }, (_, i) => i + 1);
     return numbers.sort(() => Math.random() - 0.5);
 }
 
+/**
+ * Generates a random integer within the specified range.
+ * @param min - The minimum value of the range.
+ * @param max - The maximum value of the range.
+ * @returns A random integer between min and max (inclusive).
+ */
 function getRandomIntInRange(min: number, max: number): number {
     return Math.floor(Math.random() * (max - min + 1)) + min;
 }
