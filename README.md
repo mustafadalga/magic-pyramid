@@ -2,7 +2,7 @@
 
 <h6 align="center">
 <a href="https://magicpyramid.vercel.app/">
-<img width="636" alt="Magic Mind Pyramid" src="https://github.com/mustafadalga/magic-pyramid/assets/25087769/a8e844c3-9f9c-4fc7-a9ec-402c6c0b74e5"></a>
+<img width="636" alt="Magic Mind Game" src="https://github.com/mustafadalga/magic-pyramid/assets/25087769/c878eb1a-a2fc-4a75-82d8-ee3cf354af55"></a>
 </h6>
 
 ## What is Magic Pyramid?
