@@ -1,0 +1,15 @@
+.trophy-enter {
+    transform: scale(0);
+}
+.trophy-enter-active {
+    transform: scale(1);
+    transition: transform 300ms ease-in-out;
+}
+.trophy-exit {
+    transform: scale(1);
+}
+
+.trophy-exit-active {
+    transform: scale(0);
+    transition: transform 300ms ease-in-out;
+}

@@ -7,7 +7,7 @@ import "./gameScreenStyle.css"
 import { useRef } from "react";
 
 export default function GameScreen() {
-    const { showGame } = useGame();
+    const { gameState: { showGame } } = useGame();
     const nodeRef = useRef<HTMLDivElement | null>(null)
     return (
         <SwitchTransition mode="out-in">

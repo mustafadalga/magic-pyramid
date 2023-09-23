@@ -1,7 +1,6 @@
 "use client";
 import { ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { Path, Pyramid } from "@/_types";
-import GameContext from "./GameContext";
+import GameContext, { GameState } from "./GameContext";
 import createPyramid from "@/_utilities/createPyramid";
 import findSolutions from "@/_utilities/findSolutions";
 
@@ -17,55 +16,68 @@ export default function GameProvider({ children }: { children: ReactNode }) {
         const storedValue = localStorage.getItem(LOCALSTORAGE_KEY);
         return storedValue ? Number(storedValue) : 4;
     }, []);
-    const [ gamerPath, setGamerPath ] = useState<Path>([]);
-    const [ pyramid, setPyramid ] = useState<Pyramid>([]);
-    const [ dimension, setDimension ] = useState<number>(initialDimension);
-    const [ showGame, setShowGame ] = useState<boolean>(false);
+
+    const [ gameState, setGameState ] = useState<GameState>({
+        gamerPath: [],
+        pyramid: [],
+        dimension: initialDimension,
+        showGame: false,
+        isGameCompleted: true,
+        isShowSolution: false,
+        isGameWon: false
+    });
 
     const newGame = useCallback(() => {
-        setPyramid(createPyramid(dimension));
-        setGamerPath([])
-        setShowGame(true)
-    }, [ dimension ]);
+        setGameState(prevState => ({
+            ...prevState,
+            pyramid: createPyramid(prevState.dimension),
+            showGame: true,
+            gamerPath: [],
+            isGameWon: false,
+            isGameCompleted: false,
+            isShowSolution: false,
+        }))
+    }, []);
 
     const handleDimension = useCallback((dimension: number) => {
         localStorage.setItem(LOCALSTORAGE_KEY, dimension.toString());
-        setDimension(dimension)
+        setGameState(prevState => ({ ...prevState, dimension }))
     }, []);
 
-    const isGamerPathCompleted = useMemo(() => gamerPath.length == dimension, [ gamerPath, dimension ])
+    const isGamerPathCompleted = useMemo(() => gameState.gamerPath.length == gameState.dimension, [ gameState.gamerPath, gameState.dimension ])
     const isGameWon = useMemo(() => {
-        if (!isGamerPathCompleted) return false;
+        if (!isGamerPathCompleted || gameState.isShowSolution) return false;
 
-        const solutions = findSolutions(pyramid, dimension);
-        return solutions.some(solution => JSON.stringify(solution) == JSON.stringify(gamerPath))
-    }, [ pyramid, dimension, gamerPath, isGamerPathCompleted ])
+        const solutions = findSolutions(gameState.pyramid, gameState.dimension);
+
+        return solutions.some(solution => JSON.stringify(solution) == JSON.stringify(gameState.gamerPath))
+    }, [ gameState.pyramid, gameState.isShowSolution, gameState.dimension, gameState.gamerPath, isGamerPathCompleted ])
 
     const checkGameWin = useCallback(() => {
         if (!isGameWon) return;
 
-    }, [ isGameWon ])
+        setGameState(prevState => ({ ...prevState, isGameWon: true, isGameCompleted: true }))
+    }, [ isGameWon ]);
 
     const contextValue = useMemo(() => {
         return {
-            showGame,
-            pyramid,
-            gamerPath,
-            dimension,
-            setShowGame,
-            setPyramid,
-            setGamerPath,
+            gameState,
+            setGameState,
             handleDimension,
             newGame
         }
 
-    }, [ showGame, pyramid, gamerPath, dimension, setShowGame, handleDimension, setPyramid, setGamerPath, newGame ]);
+    }, [
+        gameState,
+        setGameState,
+        handleDimension,
+        newGame ]);
 
     useEffect(() => {
         if (isGamerPathCompleted) {
             checkGameWin();
         }
-    }, [ gamerPath, dimension, checkGameWin, isGamerPathCompleted ])
+    }, [ checkGameWin, isGamerPathCompleted ])
 
     return (
         <GameContext.Provider value={contextValue}>

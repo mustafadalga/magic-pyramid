@@ -60,22 +60,22 @@ const levelOptions: Level[] = [
 
 
 const GameOptions = () => {
-    const { handleDimension, dimension, newGame } = useGame();
+    const { handleDimension, gameState, newGame } = useGame();
     return (
         <section
             className="grid gap-3 w-full max-w-xl p-8 rounded-md transition-all ease-linear shadow-[0px_0px_3px_0px_#a5b4fc] hover:shadow-[0px_0px_6px_0px_#a5b4fc] bg-white">
-            <h1 className="text-center text-indigo-600 font-bold text-2xl md:text-3xl xl:text-4xl">Game Options</h1>
+            <h1 className="text-center text-indigo-600 font-bold text-2xl lg:text-3xl">Game Options</h1>
 
             <div className="grid gap-1 w-full">
                 <label htmlFor="level"
-                       className="font-medium text-xs lg:text-sm xl:text-base text-gray-900">Dimension</label>
+                       className="font-medium text-xs lg:text-sm xl:text-base text-indigo-900">Dimension</label>
                 <Select
                     id="level"
                     isClearable={false}
                     onChange={(level: Level | null) => handleDimension(level?.value as number)}
                     placeholder="Select Difficulty"
                     options={levelOptions}
-                    value={levelOptions.find(option => option.value === dimension)}
+                    value={levelOptions.find(option => option.value === gameState.dimension)}
                 />
             </div>
 

@@ -1,15 +1,20 @@
 import { createContext, Dispatch, SetStateAction } from "react";
 import { Path, Pyramid } from "@/_types";
 
-interface GameContextContextType {
-    showGame: boolean;
+export interface GameState {
     pyramid: Pyramid,
     gamerPath: Path,
     dimension: number,
-    setShowGame: (showGame: boolean) => void
+    showGame: boolean,
+    isGameCompleted: boolean,
+    isShowSolution: boolean,
+    isGameWon: boolean
+}
+
+interface GameContextContextType {
+    gameState: GameState;
     handleDimension: (dimension: number) => void,
-    setPyramid: (pyramid: Pyramid) => void,
-    setGamerPath: Dispatch<SetStateAction<Path>>;
+    setGameState: Dispatch<SetStateAction<GameState>>;
     newGame: () => void,
 }
 

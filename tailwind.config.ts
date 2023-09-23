@@ -7,6 +7,18 @@ const config: Config = {
     './app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
   theme: {
+    extend:{
+      animation:{
+        scale: "scale 2s linear infinite forwards",
+      },
+      keyframes:{
+          scale: {
+            '0%': { transform: 'scale(1)' },
+            '50%': { transform: 'scale(1.25)' },
+            '100%': { transform: 'scale(1)' },
+          }
+      }
+    }
   },
   plugins: [],
 }
