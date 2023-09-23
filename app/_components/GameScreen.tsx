@@ -1,7 +1,7 @@
 "use client";
-import GameOptions from "@/_components/GameOptions";
+import GameOptions from "./GameOptions";
 import useGame from "@/_providers/game/useGame";
-import GamePyramidContainer from "@/_components/GamePyramidContainer";
+import GamePyramidContainer from "./GamePyramidContainer";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import "./gameScreenStyle.css"
 import { useRef } from "react";

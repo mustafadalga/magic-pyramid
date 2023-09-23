@@ -17,7 +17,7 @@ export default function GameButtonGroup() {
         setShowGame(false)
     }
     return (
-        <div className="my-10 flex justify-center gap-3">
+        <div className="flex justify-center gap-3">
             <button type="button"
                     onClick={newGame}
                     className="bg-indigo-500 hover:bg-indigo-600 active:bg-indigo-700 text-white text-center text-xs sm:text-sm gap-3 min-w-[5rem] lg:min-w-0 px-3 py-1 rounded-md shadow transition-all truncate">

@@ -1,5 +1,5 @@
 "use client";
-import Select from "@/_components/Select";
+import Select from "./Select";
 import useGame from "@/_providers/game/useGame";
 
 interface Level {
@@ -72,7 +72,7 @@ const GameOptions = () => {
                 <Select
                     id="level"
                     isClearable={false}
-                    onChange={level => handleDimension(level?.value as number)}
+                    onChange={(level: Level | null) => handleDimension(level?.value as number)}
                     placeholder="Select Difficulty"
                     options={levelOptions}
                     value={levelOptions.find(option => option.value === dimension)}
