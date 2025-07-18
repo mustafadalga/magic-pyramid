@@ -26,5 +26,8 @@
   },
   "devDependencies": {
     "@types/react-transition-group": "^4.4.6"
+  },
+  "engines": {
+    "node": "22.x"
   }
 }
